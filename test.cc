@@ -11,6 +11,5 @@ int main(){
 	vector<string> vec(n);
 	for(int i = 0; i < n; i++) cin >> vec[i];
 	test.llegir(vec);
-	test.escriure();
-	
+	test.escriure_grups();
 }

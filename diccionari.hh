@@ -1,6 +1,14 @@
+#ifndef _diccionari_HH_
+#define _diccionari_HH_
+
 #include <iostream>
 #include <map>
 #include <fstream>
+#include <algorithm>
+#include <string>
+#include <vector>
+using namespace std;
+
 struct horari{
 	string dia;
 	int h_inici;
@@ -12,8 +20,9 @@ class diccionari{
 	public:
 		diccionari();
 		void llegir(const vector<string> &data);
-		horari consulta(string assig, int grup);
+		vector<horari> consulta(string assig, int grup);
 		void escriure();
+		void escriure_grups();
 		
 		
 	private:
@@ -21,3 +30,4 @@ class diccionari{
 		
 		
 };
+#endif

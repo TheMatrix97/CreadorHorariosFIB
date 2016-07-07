@@ -1,21 +1,46 @@
 #include "diccionari.hh"
+#include <iostream>
+#include <map>
+#include <fstream>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <sstream>
 using namespace std;
+
+int convertir_str_int(const string &a){
+	return std::stoi(a);
+}
+
+string eliminar_extension(string a){
+	a.erase(a.end() - 4, a.end());
+	return a;
+}
+diccionari::diccionari(){
+	
+}
+
 void diccionari::llegir(const vector<string> &data){
 	map<string, map<int, vector<horari> > >::iterator it = contenidor.begin();
 	for(int i = 0; i < data.size(); i++){
 		string line;
 		ifstream file(data[i]);
 		while(getline(file,line) and line != "END"){
+		//	cout << "he leido: " << line << endl;
 			string basura;
-			int grup = convertir_str_int(line);
+			int grupo = convertir_str_int(line);
 			if(grupo >= 10 and grupo <= 45){
 				string line2;
-				getline(file,line2) //leemos el {
+				getline(file,line2); //leemos el {
 				vector<horari> aux;
 				while(getline(file, line2) and line2 != "}"){
 					horari aux2;
-					aux2.dia = line2.substr(0, 2);
-					file >> aux2.h_inici >> aux2.h_fi;
+					istringstream iss(line2);
+					iss >> aux2.dia;
+					iss >> aux2.h_inici;
+					iss >> aux2.h_fi;
+				//	cout << "dia: " << aux2.dia << endl;
+				//	cout << aux2.h_inici << ' ' << aux2.h_fi << endl;
 					aux.push_back(aux2);
 				}
 				string assig = eliminar_extension(data[i]);
@@ -36,7 +61,7 @@ void diccionari::llegir(const vector<string> &data){
 
 void diccionari::escriure(){
 	map<string, map<int, vector<horari> > >::iterator it;
-	map<int, vector<horari>::iterator it2;
+	map<int, vector<horari> >::iterator it2;
 	for(it = contenidor.begin(); it != contenidor.end(); it++){
 		string a = it->first;
 		cout << a << ":" << endl;
@@ -51,17 +76,29 @@ void diccionari::escriure(){
 	}
 }
 
-	
-	
-horari diccionari::consulta(string assig, int grup){ //per fer
-	
+void diccionari::escriure_grups(){
+	map<string, map<int, vector<horari> > >::iterator it;
+	map<int, vector<horari> >::iterator it2;
+	for(it = contenidor.begin(); it != contenidor.end(); it++){
+		cout << it->first << ":";
+		for(it2 = it->second.begin(); it2 != it->second.end(); it2++){
+			cout << ' ' << it2->first;
+		}
+		cout << endl;
+	}
 }
 	
-int convertir_str_int(const string &a){
-	return std::stoi(a);
-}
-
-string eliminar_extension(string a){
-	a.erase(a.end() - 3, a.end());
-	return a;
+	
+vector<horari> diccionari::consulta(string assig, int grup){ //per fer
+	vector<horari> aux;
+	map<string, map<int, vector<horari> > >::iterator it;
+	map<int, vector<horari> >::iterator it2;
+	it = contenidor.find(assig);
+	if(it != contenidor.end()){
+		it2 = it->second.find(grup);
+		if(it2 != it->second.end()){
+			for(int i = 0; i < it2->second.size(); i++) aux.push_back(it2->second[i]);
+		}
+	}
+	return aux;
 }
