@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <sstream>
 using namespace std;
 
 struct horari{
@@ -19,12 +20,11 @@ struct horari{
 class diccionari{
 	public:
 		diccionari();
+		void escriure_dades();
 		void llegir(const vector<string> &data);
-		vector<horari> consulta(string assig, int grup);
+		void consulta(string assig, vector<int> grup, vector<horari> &aux);
 		void escriure();
-		void escriure_grups();
-		
-		
+			
 	private:
 		map<string, map<int,vector<horari> > > contenidor;
 		

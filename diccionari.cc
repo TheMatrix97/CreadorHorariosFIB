@@ -1,11 +1,5 @@
 #include "diccionari.hh"
-#include <iostream>
-#include <map>
-#include <fstream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <sstream>
+
 using namespace std;
 
 int convertir_str_int(const string &a){
@@ -20,11 +14,23 @@ diccionari::diccionari(){
 	
 }
 
+void diccionari::escriure_dades(){
+	map<string, map<int, vector<horari> > >::iterator it;
+	map<int, vector<horari> >::iterator it2;
+	for(it = contenidor.begin(); it != contenidor.end(); it++){
+		cout << it->first << ":";
+		for(it2 = it->second.begin(); it2 != it->second.end(); it2++){
+			cout << ' ' << it2->first;
+		}
+		cout << endl;
+	}
+}
+
 void diccionari::llegir(const vector<string> &data){
 	map<string, map<int, vector<horari> > >::iterator it = contenidor.begin();
 	for(int i = 0; i < data.size(); i++){
 		string line;
-		ifstream file(data[i]);
+		ifstream file("data/" + data[i]);
 		while(getline(file,line) and line != "END"){
 		//	cout << "he leido: " << line << endl;
 			string basura;
@@ -76,29 +82,37 @@ void diccionari::escriure(){
 	}
 }
 
-void diccionari::escriure_grups(){
-	map<string, map<int, vector<horari> > >::iterator it;
-	map<int, vector<horari> >::iterator it2;
-	for(it = contenidor.begin(); it != contenidor.end(); it++){
-		cout << it->first << ":";
-		for(it2 = it->second.begin(); it2 != it->second.end(); it2++){
-			cout << ' ' << it2->first;
-		}
-		cout << endl;
-	}
-}
+bool comprova(horari &entrada, horari &sortida_aux){
+	 int h_in = entrada.h_inici;
+	 int h_out = entrada.h_fi;
+	 if(h_out - h_in >= 2){
+		 entrada.h_fi = entrada.h_inici + 1;
+		 sortida_aux.h_inici = entrada.h_fi;
+		 sortida_aux.h_fi = sortida_aux.h_inici + 1;
+		 sortida_aux.dia = entrada.dia;
+		 return true;
+	 }else return false;
+ }
+	 
+		 
 	
-	
-vector<horari> diccionari::consulta(string assig, int grup){ //per fer
-	vector<horari> aux;
+void diccionari::consulta(string assig, vector<int> grup, vector<horari> &aux){ //per fer
 	map<string, map<int, vector<horari> > >::iterator it;
 	map<int, vector<horari> >::iterator it2;
 	it = contenidor.find(assig);
 	if(it != contenidor.end()){
-		it2 = it->second.find(grup);
-		if(it2 != it->second.end()){
-			for(int i = 0; i < it2->second.size(); i++) aux.push_back(it2->second[i]);
+		for(int i = 0; i < grup.size(); i++){
+			it2 = it->second.find(grup[i]);
+			if(it2 != it->second.end()){
+				for(int i = 0; i < it2->second.size(); i++){
+					horari auxil = it2->second[i];
+					horari auxil2;
+					if(comprova(auxil,auxil2)){
+						aux.push_back(auxil);
+						aux.push_back(auxil2);
+					}else aux.push_back(auxil);
+				}
+			}
 		}
 	}
-	return aux;
 }
