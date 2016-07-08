@@ -1,5 +1,6 @@
 #include "diccionari.hh"
 #include "mihorario.hh"
+#include "comparador.hh"
 using namespace std;
 struct error{
 	bool validesa; //if true hi ha error
@@ -55,7 +56,72 @@ error op1(const vector<string> &vec, diccionari &a){
 
 		
 
-void op2(){
+void op2(const vector<string> &a, diccionari &data){
+	map<string, vector<grup> > conj;
+	cout << "grups disponibles: " << endl;
+	int n;
+	for(int i = 0; i < a.size(); i++){
+		cout << a[i] << "num de grupos" << ": ";
+		cin >> n;
+		vector<grup> aux;
+		int gen,lab;
+		for(int j = 0; j < n; j++){
+			int auxi;
+			cin >> auxi;
+			if(auxi % 10 == 0){
+				gen = auxi;
+			}else{
+				 lab = auxi;
+				 grup ins;
+				 ins.gen = gen;
+				 ins.lab = lab;
+				 aux.push_back(ins);
+			 }
+		 }
+		 conj.insert(make_pair(a[i],aux));
+		
+	}
+	vector< map<string, grup> > pos;
+	bool fault = false;
+	if(a.size() == 2) all_combinaciones_2(conj,pos);
+	else if(a.size() == 3) all_combinaciones_3(conj,pos);
+	else if(a.size() == 4) all_combinaciones_4(conj,pos);
+	else if(a.size() == 5) all_combinaciones_5(conj,pos);
+	else{
+		fault = true;
+		cout << "error, como minimo hay que matricular 2 assig y como maximo 5" << endl;
+	}
+	if(not fault){
+		map<string, grup>::iterator it;
+		map<string, grup>::iterator it2;
+		cout << "OPCIONES: " << endl;
+		for(int i = 0; i < pos.size(); i++){
+			mihorario aux;
+			vector<horari> aux2;
+			for(it = pos[i].begin(); it != pos[i].end(); it++){	
+				vector<int> aux3(2);
+				aux3[0] = it->second.gen;
+				aux3[1] = it->second.lab;
+				data.consulta(it->first,aux3,aux2);
+			}
+			/*for(int i = 0; i < aux2.size(); i++){
+				cout << aux2[i].dia << ' ' << aux2[i].h_inici << "//" << aux2[i].h_fi << endl;
+			}*/
+			bool fin = true;
+			for(int j = 0; j < aux2.size() and fin; j++){
+				string franja = crea_franja(aux2[j].h_inici, aux2[j].h_fi);
+			//	cout << aux2[j].dia << ' ' << franja << endl;
+				fin  = aux.insert_nuevo_evento(aux2[j].dia,franja);
+			}
+			if(fin){
+				for(it2 = pos[i].begin(); it2 != pos[i].end(); it2++){
+					cout << it2->first << ": " << it2->second.gen << ' ' << it2->second.lab << endl;
+				}
+				cout << "------------------" << endl;
+			}
+		//	cout << "------OP--------" << endl;
+		}
+	}	
 }
 
 int menu(){
@@ -101,6 +167,6 @@ int main(){
 			cout << "hi ha un solapament al dia " << ret.dia << endl;
 		}else cout << "no hi ha cap solapament" << endl;
 	}
-	else op2();
+	else op2(vec2,test);
 	
 }
