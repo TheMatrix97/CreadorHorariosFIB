@@ -31,22 +31,24 @@ void diccionari::llegir(const vector<string> &data){
 	for(int i = 0; i < data.size(); i++){
 		string line;
 		ifstream file("data/" + data[i]);
-		while(getline(file,line) and line != "END"){
-		//	cout << "he leido: " << line << endl;
+		while(getline(file,line) and line != "END\n"){
+			cout << "he leido: " << line << endl;
 			string basura;
 			int grupo = convertir_str_int(line);
 			if(grupo >= 10 and grupo <= 45){
 				string line2;
 				getline(file,line2); //leemos el {
+				cout << line2 << endl;
 				vector<horari> aux;
-				while(getline(file, line2) and line2 != "}"){
+				while(getline(file, line2) and line2 != "}\n"){
 					horari aux2;
+					cout << "linea:" << line2 << endl;
 					istringstream iss(line2);
 					iss >> aux2.dia;
 					iss >> aux2.h_inici;
 					iss >> aux2.h_fi;
-				//	cout << "dia: " << aux2.dia << endl;
-				//	cout << aux2.h_inici << ' ' << aux2.h_fi << endl;
+					cout << "dia: " << aux2.dia << endl;
+					cout << aux2.h_inici << ' ' << aux2.h_fi << endl;
 					aux.push_back(aux2);
 				}
 				string assig = eliminar_extension(data[i]);

@@ -1,0 +1,106 @@
+WELCOME!
+BD 
+CI 
+EDA 
+M1 
+SO 
+PE 
+EEE 
+XC 
+Cuantas assignaturas vas a matricular?
+Que assignaturas vas a matricular? (EN MAYUS)
+he leido: 10
+{
+linea:dj 11 13
+dia: dj
+11 13
+linea:dm 10 12
+dia: dm
+10 12
+linea:}
+dia: }
+10 12
+linea:
+dia: 
+10 12
+linea:20
+dia: 20
+10 12
+linea:{
+dia: {
+10 12
+linea:dc 8 10
+dia: dc
+8 10
+linea:dj 8 10
+dia: dj
+8 10
+linea:}
+dia: }
+8 10
+linea:
+dia: 
+8 10
+linea:30
+dia: 30
+8 10
+linea:{
+dia: {
+8 10
+linea:dm 8 10
+dia: dm
+8 10
+linea:dc 10 12
+dia: dc
+10 12
+linea:}
+dia: }
+10 12
+linea:
+dia: 
+10 12
+linea:40
+dia: 40
+10 12
+linea:{
+dia: {
+10 12
+linea:dm 15 17
+dia: dm
+15 17
+linea:dc 17 19
+dia: dc
+17 19
+linea:}
+dia: }
+17 19
+linea:
+dia: 
+17 19
+linea:END
+dia: END
+17 19
+linea:
+dia: 
+17 19
+linea:
+dia: 
+17 19
+linea:
+dia: 
+17 19
+linea:
+dia: 
+17 19
+linea:
+dia: 
+17 19
+linea:
+dia: 
+17 19
+Estos son los grupos almacenados en data: 
+EEE: 10
+------
+1.Comprobar solapamientos de assignaturas insertando el num de grupo
+2.Buscar horarios possibles entre unos grupos
+Selecciona un num: 
