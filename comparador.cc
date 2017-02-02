@@ -1,6 +1,6 @@
 #include "comparador.hh"
 using namespace std;
-void all_combinaciones_2(map<string, vector<grup> > &a, vector< map<string, grup> > &b){
+void all_combinaciones_2(map<string, vector<int> > &a, vector< map<string, vector<int> > > &b){
 	map<string, vector<grup> >::iterator it;
 	map<string, vector<grup> >::iterator it2;
 	it = a.begin();
@@ -18,7 +18,7 @@ void all_combinaciones_2(map<string, vector<grup> > &a, vector< map<string, grup
 	}
 }
 
-void all_combinaciones_3(map<string, vector<grup> > &a, vector< map<string, grup> > &b){
+void all_combinaciones_3(map<string, vector<grup> > &a, vector< map<string, vector<int> > > &b){
 	map<string, vector<grup> >::iterator it;
 	map<string, vector<grup> >::iterator it2;
 	map<string, vector<grup> >::iterator it3;

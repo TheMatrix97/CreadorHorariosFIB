@@ -57,31 +57,23 @@ error op1(const vector<string> &vec, diccionari &a){
 		
 
 void op2(const vector<string> &a, diccionari &data){
-	map<string, vector<grup> > conj;
+	map<string, vector<int> > conj;
 	cout << "grups disponibles: " << endl;
-	int n;
 	for(int i = 0; i < a.size(); i++){
-		cout << a[i] << "num de grupos" << ": ";
-		cin >> n;
-		vector<grup> aux;
-		int gen,lab;
-		for(int j = 0; j < n; j++){
-			int auxi;
-			cin >> auxi;
-			if(auxi % 10 == 0){
-				gen = auxi;
-			}else{
-				 lab = auxi;
-				 grup ins;
-				 ins.gen = gen;
-				 ins.lab = lab;
-				 aux.push_back(ins);
-			 }
-		 }
-		 conj.insert(make_pair(a[i],aux));
-		
+		string aux_s;
+		char buff[127];
+		cout << a[i] << " grupos" << ": ";
+		vector<int> aux;
+		getline(cin,aux_s);
+		istringstream iss2(aux_s);
+		while(iss2 >> buff){
+			int aux_i = atoi(buff);
+			aux.push_back(aux_i);
+		}
 	}
-	vector< map<string, grup> > pos;
+	conj.insert(make_pair(a[i],aux));
+	
+	vector< map<string, vector<int> > > pos;
 	bool fault = false;
 	if(a.size() == 2) all_combinaciones_2(conj,pos);
 	else if(a.size() == 3) all_combinaciones_3(conj,pos);
@@ -99,23 +91,21 @@ void op2(const vector<string> &a, diccionari &data){
 			mihorario aux;
 			vector<horari> aux2;
 			for(it = pos[i].begin(); it != pos[i].end(); it++){	
-				vector<int> aux3(2);
-				aux3[0] = it->second.gen;
-				aux3[1] = it->second.lab;
+				vector<int> aux3 = it->second;
 				data.consulta(it->first,aux3,aux2);
 			}
-			/*for(int i = 0; i < aux2.size(); i++){
-				cout << aux2[i].dia << ' ' << aux2[i].h_inici << "//" << aux2[i].h_fi << endl;
-			}*/
 			bool fin = true;
 			for(int j = 0; j < aux2.size() and fin; j++){
 				string franja = crea_franja(aux2[j].h_inici, aux2[j].h_fi);
-			//	cout << aux2[j].dia << ' ' << franja << endl;
 				fin  = aux.insert_nuevo_evento(aux2[j].dia,franja);
 			}
 			if(fin){
 				for(it2 = pos[i].begin(); it2 != pos[i].end(); it2++){
-					cout << it2->first << ": " << it2->second.gen << ' ' << it2->second.lab << endl;
+					cout << it2->first << ":";
+					for(int x = 0; x < pos[i]->second.size(); x++){
+						cout << ' ' << pos[i]->second[x];
+					}
+					cout << endl;
 				}
 				cout << "------------------" << endl;
 			}
